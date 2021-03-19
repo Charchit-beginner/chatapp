@@ -13,12 +13,26 @@ const express = require('express');
 const app = express()
 const fs = require("fs")
 const port = process.env.PORT || 3000
+const path = require('path');
 const http = require('http').Server(app);
+const http1 = require("http")
 const io = require('socket.io')(http);
 // const html = fs.readFileSync("/static/index.html")
+
+app.get('/h',(req,res)=>{
+  
+  // res.writeHead(200, {'Content-Type': 'video/mp4'});
+  // let opStream = fs.createReadStream('/home/Downloads/me_at_the_zoo.mp4');
+  res.writeHead(200, {'Content-Type': 'audio/wav'});
+  let opStream = fs.createReadStream('notification.wav');
+  
+  opStream.pipe(res);
+ 
+});
 app.get('/', (req, res) => {
     res.sendFile(__dirname+ "/static/index.html")
-  });;
+  });
+
 console.log("hi");
 client = {}
 io.on("connection",socket=>{

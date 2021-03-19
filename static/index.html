@@ -95,6 +95,7 @@
             background-color: coral;
         }
         </style>
+    <!-- <audio src="../notification.wav"></audio> -->
     </head>
     <body>
         <div class="msg-container">
@@ -107,9 +108,12 @@
                 <button id="btn" type="submit">SEND</button>
             </form>
             <script src="/socket.io/socket.io.js" ></script>
+            <!-- <video controls="" autoplay="" name="media"><source src="htt   p://localhost:3000/h" type="audio/wav"></video> -->
             <script>
-                
+                audio = new Audio("/h")
                 const socket = io()
+   
+
 
 const container  = document.querySelector(".msg-container")
 var form = document.getElementById("container")
@@ -121,6 +125,9 @@ function write(msg,pos){
     msg1.classList.add("message")
     msg1.classList.add(pos)
     container.append(msg1)
+    if (msg == "left"){
+    audio.play()
+}
 }
 
 
@@ -142,6 +149,8 @@ socket.on("msg",data=>{
     console.log("FDSFa")
     write(`${data.user} : ${data.message}`,"left")
     container.scrollTop = container.scrollHeight - container.clientHeight;
+    
+    
 })
 form.addEventListener("submit",(e)=>{
     const inp = input.value
@@ -152,6 +161,8 @@ form.addEventListener("submit",(e)=>{
     write(`You : ${inp}`,"right")
     input.value = ""
     container.scrollTop = container.scrollHeight - container.clientHeight;
+   
+    
 }) 
 
 
