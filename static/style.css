@@ -1,0 +1,106 @@
+::-webkit-scrollbar {
+    width: 9px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0px 0px 12px rgb(114, 187, 104);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, rgb(115, 190, 178), rgb(20, 61, 16));
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, rgb(54, 139, 54), rgb(216, 127, 127));
+    border-radius: 100px;
+}
+
+html {
+    height: 100%;
+    margin:0px;
+    padding: 0px;
+}
+body {
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background: linear-gradient(rgb(199, 145, 200),rgb(198, 211, 201));
+}
+
+.msg-container {
+    background: linear-gradient(#c18787,#bb9c9c);    margin: 1px auto;
+    width: 580px;
+    height: 400px;
+    overflow: scroll;
+    overflow-x: hidden;
+    border-radius: 10px;
+    margin: auto;
+    position: relative;
+    /* margin-top: 50px; */
+}
+#typing{
+    margin: 0px auto;
+    text-align: center;
+    background-color: #be9090;
+    border-radius: 95px;
+}
+#typingdiv{
+    width: 580px;
+    margin: auto;
+    /* margin-top: 16px; */
+    /* margin-bottom: -19px; */
+    position: relative;
+    /* top: 51px; */
+    border-radius: 95px;
+}
+.message {
+    background: #b9282861;
+    color: blue;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.left {
+    margin:10px ;
+    width: fit-content;
+    float: left;
+    clear: both;
+}
+
+.right {
+    background: rgb(187, 224, 187);
+    margin:10px ;
+    float: right;
+    clear: both;
+}
+
+
+.send {
+    border-radius: 10px;
+    margin: 1px auto;
+    width: 580px;   
+    background-color: rgb(159 115 162 / 49%);
+}
+input{
+    background: #c2c3a5;
+    width:  493px;
+    height: 25px;
+    border-radius: 10px;
+    outline: none;
+}
+
+button {
+    padding: 4px 7px;
+    border: 2px solid white;
+    background-color: #b39d95;
+    font-size: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: coral;
+}

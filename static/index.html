@@ -1,191 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CHAT - APP</title>
-        <style>
-        ::-webkit-scrollbar {
-            width: 9px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            box-shadow: inset 0px 0px 12px rgb(114, 187, 104);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, rgb(115, 190, 178), rgb(20, 61, 16));
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(45deg, rgb(54, 139, 54), rgb(216, 127, 127));
-            border-radius: 100px;
-        }
-        
-        html {
-            height: 100%;
-        }
-        body {
-            height: 100%;
-            margin: 0;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background: linear-gradient(rgb(199, 145, 200),rgb(198, 211, 201));
-        }
-        
-        .msg-container {
-            background: linear-gradient(#c18787,#bb9c9c);    margin: 1px auto;
-            width: 580px;
-            height: 400px;
-            overflow: scroll;
-            overflow-x: hidden;
-            border-radius: 10px;
-            margin: auto;
-            margin-top: 50px;
-        }
-        
-        .message {
-            background: #b9282861;
-            color: blue;
-            padding: 10px;
-            border-radius: 10px;
-        }
-        
-        .left {
-            margin:10px ;
-            width: fit-content;
-            float: left;
-            clear: both;
-        }
-        
-        .right {
-            background: rgb(187, 224, 187);
-            margin:10px ;
-            float: right;
-            clear: both;
-        }
-        
-        
-        .send {
-            border-radius: 10px;
-            margin: 1px auto;
-            width: 580px;   
-            background-color: rgb(159 115 162 / 49%);
-        }
-        input{
-            background: #c2c3a5;
-            width:  493px;
-            height: 25px;
-            border-radius: 10px;
-            outline: none;
-        }
-        
-        button {
-            padding: 4px 7px;
-            border: 2px solid white;
-            background-color: #b39d95;
-            font-size: 20px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        
-        button:hover {
-            background-color: coral;
-        }
-        </style>
-    <!-- <audio src="../notification.wav"></audio> -->
-    </head>
-    <body>
-        <div class="msg-container">
-            <div class="message left"> hi all</div>
-            <div class="message right"> hi lal lfasd</div>
-        </div>
-        <div class="send">
-            <form action="#" id="container" autocomplete="off">
-                <input type="text" id="inp" placeholder="Enter Your Message">
-                <button id="btn" type="submit">SEND</button>
-            </form>
-            <script src="/socket.io/socket.io.js" ></script>
-            <!-- <video controls="" autoplay="" name="media"><source src="htt   p://localhost:3000/h" type="audio/wav"></video> -->
-            <script>
-                audio = new Audio("/h")
-                const socket = io()
-   
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHAT - APP</title>
+    <link rel="stylesheet" href="/css">
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="/js" defer></script>
 
-const container  = document.querySelector(".msg-container")
-var form = document.getElementById("container")
-var input =  document.getElementById("inp")
+</head>
 
-function write(msg,pos){
-    var msg1 = document.createElement("div")
-    msg1.innerText = msg
-    msg1.classList.add("message")
-    msg1.classList.add(pos)
-    container.append(msg1)
-    if (msg == "left"){
-    audio.play()
-}
-}
-
-
-
-const name1 = prompt("Enter Your Name ")
-socket.emit("new-user", name1)
-// socket.emit("disconnect", "hi")  
-
-socket.on("user-joined",name1=>{
-    write(`${name1} joined the chat`,"right")
-    container.scrollTop = container.scrollHeight - container.clientHeight;
-})
-socket.on("leave",left=>{
-    write(`${left.user} left the chat`,"left")
-    container.scrollTop = container.scrollHeight - container.clientHeight;
-})
-socket.on("msg",data=>{
-    console.log(data.message)
-    console.log("FDSFa")
-    write(`${data.user} : ${data.message}`,"left")
-    container.scrollTop = container.scrollHeight - container.clientHeight;
+<body>
+    <div id="typingdiv"><p id="typing"></p></div>
     
-    
-})
-form.addEventListener("submit",(e)=>{
-    const inp = input.value
-    e.preventDefault()
-    console.log("hi")
-    socket.emit("message", inp)
-    console.log("hi");
-    write(`You : ${inp}`,"right")
-    input.value = ""
-    container.scrollTop = container.scrollHeight - container.clientHeight;
-   
-    
-}) 
+    <div class="msg-container">
+        <div class="message left"> hi all</div>
+        <div class="message right"> hi lal lfasd</div>
+    </div>
+
+    <div class="send">
+        <form action="#" id="container" autocomplete="off">
+            <input type="text" id="inp" placeholder="Enter Your Message">
+            <button id="btn" type="submit">SEND</button>
+        </form>
 
 
 
+    </div>
+</body>
 
-
-
-
-// var inp = document.getElementById("inp")
-// a = 1
-// document.addEventListener("keydown", keydownhandle,false)
-
-// function keydownhandle(e){
-//     messages = document.getElementById("message")
-//     if (e.key == "Enter"){
-//     console.log(inp.value);
-//     let usediv = document.createElement("div");
-//     // usediv.id = "usediv"
-//     usediv.innerHTML = inp.value;
-//     messages.appendChild(usediv);
-//     }
-// }
-            </script>
-        </div>
-    </body>
 </html>
