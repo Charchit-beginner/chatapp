@@ -2,7 +2,7 @@
 This is a chatapp is made with socket.io</br>
 node js should be installed in your machine </br>
 install the following modules by entering these commands</br>
-mpn i express</br>
+npm i express</br>
 npm i socket.io</br>
 
 
