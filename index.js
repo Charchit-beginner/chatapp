@@ -9,7 +9,16 @@
 //     next();
 // });
 // console.log(io);
-const io = require("socket.io")(8000);
+const express = require('express');
+const app = express()
+const fs = require("fs")
+const port = process.env.PORT || 3000
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+// const html = fs.readFileSync("/static/index.html")
+app.get('/', (req, res) => {
+    res.sendFile(__dirname+ "/static/index.html")
+  });;
 console.log("hi");
 client = {}
 io.on("connection",socket=>{
@@ -27,3 +36,7 @@ io.on("connection",socket=>{
         console.log(reason)
       });
 })
+http.listen(port, () => {
+    console.log(`Socket.IO server running at http://localhost:${port}/`);
+  });
+  
