@@ -27,11 +27,12 @@ body {
     margin: 0;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    background: linear-gradient(rgb(199, 145, 200),rgb(198, 211, 201));
+    background: #c7e6bd6b;
 }
 
 .msg-container {
-    background: linear-gradient(#c18787,#bb9c9c);    margin: 1px auto;
+    margin: 1px auto;
+    background: linear-gradient(#f4ff0045,#d4acce);
     width: 580px;
     height: 400px;
     overflow: scroll;
@@ -57,8 +58,8 @@ body {
     border-radius: 95px;
 }
 .message {
-    background: #b9282861;
-    color: blue;
+    background: #42181861;
+    color: #4f07ff;
     padding: 10px;
     border-radius: 10px;
 }
@@ -103,4 +104,12 @@ button {
 
 button:hover {
     background-color: coral;
+}
+
+#but{
+    width:54px;
+    height:40px;
+    font-size: 8px;
+    border-radius:50%;
+    margin-left:10px ;
 }

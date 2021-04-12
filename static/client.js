@@ -1,4 +1,4 @@
-audio = new Audio("/h")
+var audio = new Audio("/h")
 const socket = io()
 
 var typing = false
@@ -6,6 +6,19 @@ var typing = false
 const container = document.querySelector(".msg-container")
 var form = document.getElementById("container")
 var input = document.getElementById("inp")
+var unmute = document.getElementById("but")
+var file = false
+
+unmute.addEventListener("click", () => {
+    if (unmute.value == "UNMUTE") {
+        unmute.value = "MUTE"
+        audio.muted = false
+    } else {
+        unmute.value = "UNMUTE"
+        audio.muted = true
+    }
+    }
+)
 
 function write(msg, pos) {
     var msg1 = document.createElement("div")
@@ -82,6 +95,7 @@ input.addEventListener("input", (e)=>{
     socket.emit("user-typing",typing)
     console.log(input.value)
 })
+
 
 
 

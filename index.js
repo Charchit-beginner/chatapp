@@ -37,6 +37,12 @@ app.get('/js', (req, res) => {
 app.get('/css', (req, res) => {
   res.sendFile(__dirname + "/static/style.css")
 });
+app.get('/mute', (req, res) => {
+  res.sendFile(__dirname + "/static/mute.ico")
+});
+app.get('/unmute', (req, res) => {
+  res.sendFile(__dirname + "/static/unmute.ico")
+});
 
 console.log("hi");
 client = {}
@@ -61,7 +67,10 @@ io.on("connection", socket => {
         socket.broadcast.emit("type",{typing : data})
       }
   })
+
 })
+
 http.listen(port, () => {
   console.log(`Socket.IO server running at http://localhost:${port}/`);
 });
+
