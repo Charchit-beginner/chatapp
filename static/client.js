@@ -2,12 +2,20 @@ var audio = new Audio("/h")
 const socket = io()
 
 var typing = false
-
 const container = document.querySelector(".msg-container")
 var form = document.getElementById("container")
 var input = document.getElementById("inp")
 var unmute = document.getElementById("but")
-var file = false
+
+const name1 = prompt("Enter Your Name ")
+function addname(){
+var names = document.getElementById("users")
+var option = document.createElement("option")
+// option.value = name1
+option.text = name1
+names.add(option)
+}
+addname()
 
 unmute.addEventListener("click", () => {
     if (unmute.value == "UNMUTE") {
@@ -17,6 +25,7 @@ unmute.addEventListener("click", () => {
         unmute.value = "UNMUTE"
         audio.muted = true
     }
+    
     }
 )
 
@@ -34,13 +43,15 @@ function write(msg, pos) {
 
 
 
-const name1 = prompt("Enter Your Name ")
+
+
 socket.emit("new-user", name1)
 // socket.emit("disconnect", "hi")  
 
 socket.on("user-joined", name1 => {
     write(`${name1} joined the chat`, "left")
     container.scrollTop = container.scrollHeight - container.clientHeight;
+
 })
 socket.on("leave", left => {
     write(`${left.user} left the chat`, "left")

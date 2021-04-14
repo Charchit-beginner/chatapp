@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHAT - APP</title>
     <link rel="stylesheet" href="/css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js" defer></script>
     <script src="/js" defer></script>
 
@@ -14,17 +13,25 @@
 
 <body>
     
+    
+    
     <div id="typingdiv"><p id="typing"></p></div>
     <input id="but"  type="button" value="MUTE"></button>
     <div class="msg-container">
-        <div class="message left"></div>
-        <div class="message right"></div>
     </div>
 
-    <div class="send">
+    <div class="send ">
         <form action="#" id="container" autocomplete="off">
             <input type="text" id="inp" placeholder="Enter Your Message">
             <button id="btn" type="submit">SEND</button>
+            <select id="users" style="outline: none;font-size: 20px;margin: 5px ; float:right; height: 36px;
+            border-radius: 10px";>
+
+            </select>
+           
+
+                
+              </div>
         </form>
 
 
