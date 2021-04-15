@@ -50,15 +50,23 @@ socket.on("msg", data => {
     console.log(data.message)
     write(`${data.user} : ${data.message}`, "left")
     container.scrollTop = container.scrollHeight - container.clientHeight;
-
-
+})
+socket.on("msg_private", data => {
+    console.log(data.message)
+    write(`${data.user} : ${data.message}`, "left")
+    container.scrollTop = container.scrollHeight - container.clientHeight;
 })
 var a
 form.addEventListener("submit", (e) => {
     typing  = false
     const inp = input.value
     e.preventDefault()
-    socket.emit("message", inp)
+    if (inp.includes("pri")){
+        socket.emit("private message","chirag",inp)
+    }
+        else{
+        socket.emit("message", inp)}
+
     write(`You : ${inp}`, "right")
     console.log(typing)
     input.value = ""

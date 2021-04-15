@@ -51,6 +51,7 @@ io.on("connection", socket => {
     console.log("new user joined", name)
     client[socket.id] = name
     socket.broadcast.emit("user-joined", name);
+    socket.join(name)
   })
   socket.on("message", message => {
     console.log(message)
@@ -67,7 +68,10 @@ io.on("connection", socket => {
         socket.broadcast.emit("type",{typing : data})
       }
   })
-
+  socket.on("private message", (anotherSocketId, msg) => {
+    console.log(anotherSocketId)
+    socket.to(anotherSocketId).emit("msg_private",{user : client[socket.id], message : msg});
+  });
 })
 
 http.listen(port, () => {
