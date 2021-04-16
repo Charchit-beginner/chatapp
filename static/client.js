@@ -8,14 +8,9 @@ var input = document.getElementById("inp")
 var unmute = document.getElementById("but")
 
 const name1 = prompt("Enter Your Name ")
-function addname(){
-var names = document.getElementById("users")
-var option = document.createElement("option")
-// option.value = name1
-option.text = name1
-names.add(option)
-}
-addname()
+
+
+
 
 unmute.addEventListener("click", () => {
     if (unmute.value == "UNMUTE") {
@@ -48,8 +43,14 @@ function write(msg, pos) {
 socket.emit("new-user", name1)
 // socket.emit("disconnect", "hi")  
 
-socket.on("user-joined", name1 => {
-    write(`${name1} joined the chat`, "left")
+socket.on("user-joined", data => {
+    write(`${data.user} joined the chat`, "left")
+    var names = document.getElementById("users")
+    var option = document.createElement("option")
+    // option.value = name1
+    option.text = data.user
+    console.log(data.list)
+    names.add(option)
     container.scrollTop = container.scrollHeight - container.clientHeight;
 
 })
@@ -70,10 +71,11 @@ socket.on("msg_private", data => {
 var a
 form.addEventListener("submit", (e) => {
     typing  = false
+    const name = document.getElementById("users").value
     const inp = input.value
     e.preventDefault()
     if (inp.includes("pri")){
-        socket.emit("private message","chirag",inp)
+        socket.emit("private message",name,inp)
     }
         else{
         socket.emit("message", inp)}
@@ -106,7 +108,6 @@ input.addEventListener("input", (e)=>{
     typing = true
     if (input.value == ""){
         typing = false
-        console.log("you bulshit")
         socket.emit("user-typing",typing)
     }
     e.preventDefault

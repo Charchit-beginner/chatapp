@@ -50,7 +50,8 @@ io.on("connection", socket => {
   socket.on("new-user", name => {
     console.log("new user joined", name)
     client[socket.id] = name
-    socket.broadcast.emit("user-joined", name);
+    socket.broadcast.emit("user-joined", {user : name,list :client});
+    console.log(client)
     socket.join(name)
   })
   socket.on("message", message => {
