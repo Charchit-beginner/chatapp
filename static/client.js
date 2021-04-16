@@ -9,6 +9,7 @@ var unmute = document.getElementById("but")
 
 const name1 = prompt("Enter Your Name ")
 
+var names = document.getElementById("users")
 
 
 
@@ -45,17 +46,28 @@ socket.emit("new-user", name1)
 
 socket.on("user-joined", data => {
     write(`${data.user} joined the chat`, "left")
-    var names = document.getElementById("users")
-    var option = document.createElement("option")
-    // option.value = name1
-    option.text = data.user
-    console.log(data.list)
-    names.add(option)
-    container.scrollTop = container.scrollHeight - container.clientHeight;
-
+    while (names.childNodes.length > 2) {  
+        names.removeChild(names.lastChild);
+      }
+      for (i in data.list){
+          var option = document.createElement("option")
+          option.text = data.list[i]
+          option.id = data.list[i]
+          names.add(option)
+          container.scrollTop = container.scrollHeight - container.clientHeight;
+        }
+    self = document.getElementById(name1)
+    try {
+        
+        self.parentNode.removeChild(self)
+    } catch (error) {
+        console.log("error")
+    }
 })
 socket.on("leave", left => {
     write(`${left.user} left the chat`, "left")
+    var item = document.getElementById(left.user)
+    item.parentNode.removeChild(item)
     container.scrollTop = container.scrollHeight - container.clientHeight;
 })
 socket.on("msg", data => {
@@ -74,11 +86,12 @@ form.addEventListener("submit", (e) => {
     const name = document.getElementById("users").value
     const inp = input.value
     e.preventDefault()
-    if (inp.includes("pri")){
+    if (document.getElementById("users").value == "everyone"){
+        socket.emit("message", inp)
+    }
+    else{
         socket.emit("private message",name,inp)
     }
-        else{
-        socket.emit("message", inp)}
 
     write(`You : ${inp}`, "right")
     console.log(typing)
@@ -103,6 +116,24 @@ socket.on("type", data => {
     // document.getElementById("typing1").innerText = `${data.user} is typing ...`
     
 })
+socket.on("joined",data=>{
+    while (names.childNodes.length > 2) {  
+        names.removeChild(names.lastChild);
+      }
+      for (i in data.list){
+          var option = document.createElement("option")
+          option.text = data.list[i]
+          option.id = data.list[i]
+          names.add(option)
+          container.scrollTop = container.scrollHeight - container.clientHeight;
+        }
+        try {
+        
+            self.parentNode.removeChild(self)
+        } catch (error) {
+            console.log("error")
+        }
+})
 
 input.addEventListener("input", (e)=>{
     typing = true
@@ -115,6 +146,21 @@ input.addEventListener("input", (e)=>{
     socket.emit("user-typing",typing)
     console.log(input.value)
 })
+function previewFile() {
+    const preview = document.querySelector('img');
+    const file = document.querySelector('input[type=file]').files[0];
+    const reader = new FileReader();
+  
+    reader.addEventListener("load", function () {
+      // convert image file to base64 string
+      preview.src = reader.result;
+      console.log()
+    }, false);
+  
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
 
 
 

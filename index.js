@@ -51,12 +51,13 @@ io.on("connection", socket => {
     console.log("new user joined", name)
     client[socket.id] = name
     socket.broadcast.emit("user-joined", {user : name,list :client});
-    console.log(client)
+
     socket.join(name)
   })
   socket.on("message", message => {
-    console.log(message)
+    
     socket.broadcast.emit("msg", { message: message, user: client[socket.id] })
+    console.log("to all")
   })
   socket.on("disconnect", (reason) => {
     socket.broadcast.emit("leave", { user: client[socket.id] })
@@ -71,8 +72,10 @@ io.on("connection", socket => {
   })
   socket.on("private message", (anotherSocketId, msg) => {
     console.log(anotherSocketId)
-    socket.to(anotherSocketId).emit("msg_private",{user : client[socket.id], message : msg});
+    socket.to(anotherSocketId).emit("msg_private",{user : client[socket.id], message : msg})
+    console.log("privatemsg");
   });
+  socket.emit("joined",{list:client})
 })
 
 http.listen(port, () => {
