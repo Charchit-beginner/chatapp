@@ -6,14 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CHAT - APP</title>
     <link rel="stylesheet" href="/css">
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@latest/dist/browser-image-compression.js"></script>
     <script src="/socket.io/socket.io.js" defer></script>
     <script src="/js" defer></script>
 
 </head>
 
 <body>
-    <input type="file" onchange="previewFile()">
-    <img src="" height="200" width=200 alt="Image preview...">
     
     <div id="typingdiv"><p id="typing"></p></div>
     <input id="but"  type="button" value="MUTE"></button>
@@ -21,9 +20,14 @@
     </div>
 
     <div class="send ">
+        <!-- <div class="image-upload"> -->
         <form action="#" id="container" autocomplete="off">
             <input type="text" id="inp" placeholder="Enter Your Message">
             <button id="btn" type="submit">SEND</button>
+                <label for="image_inp">
+                  <img id="img" src="https://icon-library.net/images/upload-photo-icon/upload-photo-icon-21.jpg" />
+                </label>
+                <input type="file" id="image_inp" onchange="previewFile()">
             <select id="users" style="outline: none;font-size: 20px;margin: 5px ; float:right; height: 36px;
             border-radius: 10px";>
                 <option value="everyone">Everyone</option>

@@ -84,10 +84,11 @@ body {
     margin: 1px auto;
     width: 580px;   
     background-color: rgb(159 115 162 / 49%);
+
 }
-input{
+#inp{
     background: #c2c3a5;
-    width:  337px;
+    width:  319px;
     height: 25px;
     border-radius: 10px;
     outline: none;
@@ -116,3 +117,18 @@ button:hover {
     margin-left:10px ;
 }
 
+#image_inp{
+    width:20px;
+    height:20px;
+    cursor:hand;
+    background:#b39d95;
+}
+#image_inp {
+  display: none;
+}
+#img {
+    height: 29px;
+    position: relative;
+    width: 29px;
+    top: 6px;
+}

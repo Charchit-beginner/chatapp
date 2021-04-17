@@ -1,14 +1,4 @@
-// const app = require("express")
-// app.use(function (req, res, next) {
 
-//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-//     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-//     res.setHeader('Access-Control-Allow-Credentials', true);
-
-//     next();1
-// });
-// console.log(io);
 const express = require('express');
 const app = express()
 const fs = require("fs")
@@ -20,8 +10,6 @@ const io = require('socket.io')(http);
 
 app.get('/h', (req, res) => {
 
-  // res.writeHead(200, {'Content-Type': 'video/mp4'});
-  // let opStream = fs.createReadStream('/home/Downloads/me_at_the_zoo.mp4');
   res.writeHead(200, { 'Content-Type': 'audio/wav' });
   let opStream = fs.createReadStream('notification.wav');
 
@@ -62,6 +50,7 @@ io.on("connection", socket => {
   socket.on("disconnect", (reason) => {
     socket.broadcast.emit("leave", { user: client[socket.id] })
     console.log(reason)
+    delete    client[socket.id]
   });
   socket.on("user-typing",(data)=>{
     if (data == true){
@@ -76,6 +65,10 @@ io.on("connection", socket => {
     console.log("privatemsg");
   });
   socket.emit("joined",{list:client})
+  socket.on("base64 file",(msg)=>{
+    socket.broadcast.emit("base 64",msg)
+
+  })
 })
 
 http.listen(port, () => {
