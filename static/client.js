@@ -7,6 +7,17 @@ const container = document.querySelector(".msg-container")
 var form = document.getElementById("container")
 var input = document.getElementById("inp")
 var unmute = document.getElementById("but")
+send = document.getElementById("send")
+function change_win(){
+container.style.height = `${window.innerHeight - 100}px`
+container.style.width = `${window.innerWidth - 9}px`
+send.style.width = `${window.innerWidth - 9}px`
+input.style.width = `${window.innerWidth -270}px`
+}
+change_win()
+function resize(){
+change_win()
+}
 
 const name1 = prompt("Enter Your Name ")
 
@@ -67,7 +78,7 @@ function append_img(pos,img){
 
     image = document.createElement("img")
     image.id = "display_img"
-    image.classList.add("message")
+    // image.classList.add("message")
     image.classList.add(pos)
     image.innerText = img
     container.append(image)

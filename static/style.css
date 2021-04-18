@@ -31,14 +31,14 @@ body {
 }
 
 .msg-container {
-    margin: 1px auto;
+    
     background: linear-gradient(#f4ff0045,#d4acce);
     width: 580px;
     height: 400px;
     overflow: scroll;
     overflow-x: hidden;
     border-radius: 10px;
-    margin: auto;
+    margin: 0px auto;
     position: relative;
     /* margin-top: 50px; */
 }
@@ -46,25 +46,34 @@ body {
     margin: 0px auto;
     text-align: center;
     background-color: #be9090;
+    padding:2px ;
+}
+#butid{
+    margin: 0px auto;
+    text-align: center;
     border-radius: 95px;
 }
 #typingdiv{
-    width: 580px;
+    width: fit-content;
     margin: auto;
     /* margin-top: 16px; */
     /* margin-bottom: -19px; */
-    position: relative;
-    /* top: 51px; */
-    border-radius: 95px;
+    position: sticky;
+    top: 1px;
+
 }
 .message {
     background: #42181861;
     color: #4f07ff;
     padding: 10px;
     border-radius: 10px;
+    font-size:25px;
+    max-width: 300px;
+    word-wrap: break-word;
 }
 
 .left {
+    background: rgb(187, 224, 187);
     margin:10px ;
     width: fit-content;
     float: left;
@@ -72,7 +81,7 @@ body {
 }
 
 .right {
-    background: rgb(187, 224, 187);
+    background: rgb(234, 236, 102);
     margin:10px ;
     float: right;
     clear: both;
@@ -84,12 +93,12 @@ body {
     margin: 1px auto;
     width: 580px;   
     background-color: rgb(159 115 162 / 49%);
-
+    height:70px;
 }
 #inp{
     background: #c2c3a5;
     width:  319px;
-    height: 25px;
+    height: 53px;
     border-radius: 10px;
     outline: none;
     margin:5px;
@@ -114,7 +123,7 @@ button:hover {
     height:40px;
     font-size: 8px;
     border-radius:50%;
-    margin-left:10px ;
+    margin-left:1px auto ;
 }
 
 #image_inp{

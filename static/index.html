@@ -12,14 +12,15 @@
 
 </head>
 
-<body>
+<body onresize="resize()">
     
-    <div id="typingdiv"><p id="typing"></p></div>
-    <input id="but"  type="button" value="MUTE"></button>
-    <div class="msg-container">
+    <div class="msg-container" id="msg_container">
+        <div id="typingdiv" ><p id="typing">
+            <p id="butid">
+        <input id="but"  type="button" value="MUTE"></p></button></div>
     </div>
 
-    <div class="send ">
+    <div class="send" id ="send">
         <!-- <div class="image-upload"> -->
         <form action="#" id="container" autocomplete="off">
             <input type="text" id="inp" placeholder="Enter Your Message">
