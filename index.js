@@ -65,8 +65,14 @@ io.on("connection", socket => {
     console.log("privatemsg");
   });
   socket.emit("joined",{list:client})
-  socket.on("base64 file",(msg)=>{
-    socket.broadcast.emit("base 64",msg)
+  socket.on("base64 file",(msg,anotherSocketId)=>{
+    if (anotherSocketId == "everyone"){
+      console.log("everyone");
+    socket.broadcast.emit("base 64",msg,"To Everyone",client[socket.id])
+  }else{
+    socket.to(anotherSocketId).emit("base 64",msg,"Direct Message",client[socket.id])
+    console.log("to me")
+  }
 
   })
 })

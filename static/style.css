@@ -1,3 +1,6 @@
+body{
+    margin:0px;
+}
 ::-webkit-scrollbar {
     width: 9px;
 }
@@ -102,6 +105,7 @@ body {
     border-radius: 10px;
     outline: none;
     margin:5px;
+    
 }
 #btn {
     padding: 4px 7px;
@@ -140,4 +144,11 @@ button:hover {
     position: relative;
     width: 29px;
     top: 6px;
+}
+
+#type{
+    font-size:small;
+    color:red;
+}
+.caption{
 }
