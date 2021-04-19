@@ -7,12 +7,12 @@ const container = document.querySelector(".msg-container")
 var form = document.getElementById("container")
 var input = document.getElementById("inp")
 var unmute = document.getElementById("but")
-send = document.getElementById("send")
+var send = document.getElementById("send")
 function change_win(){
 container.style.height = `${window.innerHeight - 100}px`
 container.style.width = `${window.innerWidth - 9}px`
 send.style.width = `${window.innerWidth - 9}px`
-input.style.width = `${window.innerWidth -270}px`
+input.style.width = `${window.innerWidth -330}px`
 }
 change_win()
 function resize(){
@@ -141,6 +141,7 @@ socket.on("msg_private", data => {
     container.scrollTop = container.scrollHeight - container.clientHeight;
 })
 var a
+
 function shit(){
     var constraints = { audio: true };
     navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
@@ -157,17 +158,41 @@ function shit(){
     };
 
     // Start recording
-    mediaRecorder.start();
-
-    // Stop recording after 5 seconds and broadcast it to server
-    setTimeout(function() {
-        mediaRecorder.stop()
-    }, 5000);
+    var    btn = document.createElement("button")
+    function h(){
+    var send_audio = document.getElementById("send_audio")
+    
+    send_audio.addEventListener("click",(e)=>{
+        e.preventDefault()
+        a=true
+        btn.id = "stop_audio"
+        btn.innerText = "Stop"
+        console.log("123123")
+        mediaRecorder.start();
+        form.insertBefore(btn,form.parentElement.children[0][2])
+        send_audio.parentNode.removeChild(send_audio)
+    })}
+    h()
+        btn.addEventListener("click", (e)=>{
+            e.preventDefault()
+            console.log("fsfsfsfs");
+            mediaRecorder.stop()
+            var stop_audio = document.getElementById("stop_audio")
+            btn2 = document.createElement("button")
+            btn2.id = "send_audio"
+            btn2.innerText = "Record"
+            form.insertBefore(btn2,form.parentElement.children[0][2])
+            stop_audio.parentNode.removeChild(stop_audio)
+            h()
+        })
+  
+    
     });
     socket.on('voice', (arrayBuffer)=> {
         console.log("hi")
         var blob = new Blob([arrayBuffer], { 'type' : 'audio/ogg; codecs=opus' });
         var speak = new Audio(window.URL.createObjectURL(blob));
+        console.log(window.URL.createObjectURL(blob))
         // speak.src = window.URL.createObjectURL(blob);
         speak.play();
   });
@@ -175,8 +200,8 @@ function shit(){
 
 
 
+shit()    
 form.addEventListener("submit", (e) => {
-    shit()    
     typing = false
     var name = document.getElementById("users").value
     const inp = input.value
@@ -238,7 +263,7 @@ async function previewFile() {
     const file = document.querySelector('input[type=file]').files[0];
 
     const options = {
-        maxSizeMB: 1,
+        maxSizeMB: 0.2,
         maxWidthOrHeight: 500,
         useWebWorker: true
     }
@@ -283,6 +308,7 @@ else{
     
     image_inp = document.getElementById("image_inp")
     image_inp.value = ""
+
 }
 socket.on("base 64", (data,direct,client) => {
 
