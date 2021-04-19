@@ -111,6 +111,7 @@ function append_img(pos,img,direct){
 }
 
 socket.emit("new-user", name1)
+
 // socket.emit("disconnect", "hi")  
 
 socket.on("user-joined", data => {
@@ -140,7 +141,42 @@ socket.on("msg_private", data => {
     container.scrollTop = container.scrollHeight - container.clientHeight;
 })
 var a
+function shit(){
+    var constraints = { audio: true };
+    navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
+    var mediaRecorder = new MediaRecorder(mediaStream);
+    mediaRecorder.onstart = function(e) {
+        this.chunks = [];
+    };
+    mediaRecorder.ondataavailable = function(e) {
+        this.chunks.push(e.data);
+    };
+    mediaRecorder.onstop = function(e) {
+        var blob = new Blob(this.chunks, { 'type' : 'audio/ogg; codecs=opus' });
+        socket.emit("radio", blob);
+    };
+
+    // Start recording
+    mediaRecorder.start();
+
+    // Stop recording after 5 seconds and broadcast it to server
+    setTimeout(function() {
+        mediaRecorder.stop()
+    }, 5000);
+    });
+    socket.on('voice', (arrayBuffer)=> {
+        console.log("hi")
+        var blob = new Blob([arrayBuffer], { 'type' : 'audio/ogg; codecs=opus' });
+        var speak = new Audio(window.URL.createObjectURL(blob));
+        // speak.src = window.URL.createObjectURL(blob);
+        speak.play();
+  });
+}
+
+
+
 form.addEventListener("submit", (e) => {
+    shit()    
     typing = false
     var name = document.getElementById("users").value
     const inp = input.value
@@ -260,6 +296,7 @@ socket.on("base 64", (data,direct,client) => {
     //   reader.readAsDataURL(file);
     // }
 })
+
 
 
 

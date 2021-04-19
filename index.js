@@ -8,6 +8,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 // const html = fs.readFileSync("/static/index.html")
 
+
 app.get('/h', (req, res) => {
 
   res.writeHead(200, { 'Content-Type': 'audio/wav' });
@@ -42,6 +43,7 @@ io.on("connection", socket => {
 
     socket.join(name)
   })
+
   socket.on("message", message => {
     
     socket.broadcast.emit("msg", { message: message, user: client[socket.id] })
@@ -75,6 +77,10 @@ io.on("connection", socket => {
   }
 
   })
+  socket.on("radio", blob=> {
+    // can choose to broadcast it to whoever you want
+    socket.broadcast.emit("voice", blob);
+});
 })
 
 http.listen(port, () => {
