@@ -267,6 +267,7 @@ input.addEventListener("input", (e) => {
 
 async function previewFile() {
     const file = document.querySelector('input[type=file]').files[0];
+    console.log(file["name"].split(".").pop)
     
     const options = {
         maxSizeMB: 0.2,
