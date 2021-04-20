@@ -77,9 +77,15 @@ io.on("connection", socket => {
   }
 
   })
-  socket.on("radio", blob=> {
+  socket.on("radio", (anotherSocketId,blob)=> {
     // can choose to broadcast it to whoever you want
-    socket.broadcast.emit("voice", blob);
+    if (anotherSocketId == "everyone"){
+      socket.broadcast.emit("voice", blob);
+    }else{
+      socket.to(anotherSocketId).emit("voice",blob)
+      console.log("to me")
+    }
+
 });
 })
 

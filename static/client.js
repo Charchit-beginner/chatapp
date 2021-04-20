@@ -5,6 +5,7 @@ const socket = io()
 var typing = false
 const container = document.querySelector(".msg-container")
 var form = document.getElementById("container")
+var send_btns = document.getElementById("send_btn")
 var input = document.getElementById("inp")
 var unmute = document.getElementById("but")
 var send = document.getElementById("send")
@@ -12,7 +13,7 @@ function change_win(){
 container.style.height = `${window.innerHeight - 100}px`
 container.style.width = `${window.innerWidth - 9}px`
 send.style.width = `${window.innerWidth - 9}px`
-input.style.width = `${window.innerWidth -330}px`
+input.style.width = `${window.innerWidth -340}px`
 }
 change_win()
 function resize(){
@@ -79,13 +80,18 @@ function write(msg, pos,direct ) {
 }
 
 
-function append_img(pos,img,direct){
+function append_img(pos,img,direct,video=false){
     preview1 = document.getElementById("display_img")
     if (preview1){
         preview1.id = "image_displayed"
     }
     send_type = document.createElement("div")
+    if (video){
+    image = document.createElement("video")
+}   else{
     image = document.createElement("img")
+
+}
     figure = document.createElement("figure")
     figure_cap = document.createElement("figcaption")
     figure_cap.innerText= direct
@@ -154,13 +160,13 @@ function shit(){
     };
     mediaRecorder.onstop = function(e) {
         var blob = new Blob(this.chunks, { 'type' : 'audio/ogg; codecs=opus' });
-        socket.emit("radio", blob);
+        socket.emit("radio",document.getElementById("users").value, blob);
     };
 
     // Start recording
     var    btn = document.createElement("button")
     function h(){
-    var send_audio = document.getElementById("send_audio")
+        var send_audio = document.getElementById("send_audio")
     
     send_audio.addEventListener("click",(e)=>{
         e.preventDefault()
@@ -169,7 +175,7 @@ function shit(){
         btn.innerText = "Stop"
         console.log("123123")
         mediaRecorder.start();
-        form.insertBefore(btn,form.parentElement.children[0][2])
+        send_btns.insertBefore(btn,send_audio.parentElement.children[2])
         send_audio.parentNode.removeChild(send_audio)
     })}
     h()
@@ -181,7 +187,7 @@ function shit(){
             btn2 = document.createElement("button")
             btn2.id = "send_audio"
             btn2.innerText = "Record"
-            form.insertBefore(btn2,form.parentElement.children[0][2])
+            send_btns.insertBefore(btn2,names.parentElement.children[2])
             stop_audio.parentNode.removeChild(stop_audio)
             h()
         })
@@ -261,7 +267,7 @@ input.addEventListener("input", (e) => {
 
 async function previewFile() {
     const file = document.querySelector('input[type=file]').files[0];
-
+    
     const options = {
         maxSizeMB: 0.2,
         maxWidthOrHeight: 500,

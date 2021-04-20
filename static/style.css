@@ -97,6 +97,7 @@ body {
     width: 580px;   
     background-color: rgb(159 115 162 / 49%);
     height:70px;
+    display: inline-block;
 }
 #inp{
     background: #c2c3a5;
@@ -144,6 +145,7 @@ button:hover {
     position: relative;
     width: 29px;
     top: 6px;
+    margin:2px;
 }
 
 #type{
@@ -152,3 +154,12 @@ button:hover {
 }
 .caption{
 }
+#send_audio{
+    
+}
+#send_btn{
+    background: #b39d95;
+    display: inline-block;
+    height: 55px;
+    padding-top: 1px;
+};
