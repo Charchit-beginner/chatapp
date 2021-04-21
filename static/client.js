@@ -107,7 +107,9 @@ function append_img(pos,direct,filetype){
     image.controls = true    
 }
 else{
-image = document.createElement("img")
+    image = document.createElement("img")
+    // image.height = 200
+    // image.width = 200 
 }
     
 
@@ -172,64 +174,69 @@ var a
 
 function record_audio(){
     var constraints = { audio: true };
-    navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
-     mediaRecorder = new MediaRecorder(mediaStream);
-     window.streamReference = mediaStream
-    mediaRecorder.onstart = function(e) {
-        this.chunks = [];
-    };
-    mediaRecorder.ondataavailable = function(e) {
-        this.chunks.push(e.data);
-    };
-    mediaRecorder.onstop = function(e) {
-        var blob = new Blob(this.chunks, { 'type' : 'audio/ogg; codecs=opus' });
-        socket.emit("radio",document.getElementById("users").value ,blob);
-        console.log(document.getElementById("users").value)
-
-        if (document.getElementById("users").value == "everyone"){
-        preview = append_img("right","Everyone","mp3")
-    }
-    else{
-        preview = append_img("right","Direct Message","mp3")
-    }
-    preview.src = window.URL.createObjectURL(blob)
-    };
-
-    // Start recording
-    var    btn = document.createElement("button")
-    function audio_stream(){
-        var send_audio = document.getElementById("send_audio")
+    try {
+        navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
+         mediaRecorder = new MediaRecorder(mediaStream);
+         window.streamReference = mediaStream
+        mediaRecorder.onstart = function(e) {
+            this.chunks = [];
+        };
+        mediaRecorder.ondataavailable = function(e) {
+            this.chunks.push(e.data);
+        };
+        mediaRecorder.onstop = function(e) {
+            var blob = new Blob(this.chunks, { 'type' : 'audio/ogg; codecs=opus' });
+            socket.emit("radio",document.getElementById("users").value ,blob);
+            console.log(document.getElementById("users").value)
     
-    send_audio.addEventListener("click",(e)=>{
-        e.preventDefault()
-        a=true
-        btn.id = "stop_audio"
-        btn.classList.add("btn")
-        btn.innerText = "Stop"
-        console.log("123123")
-        mediaRecorder.start();
-        send_btns.insertBefore(btn,send_audio.parentElement.children[2])
-        send_audio.parentNode.removeChild(send_audio)
+            if (document.getElementById("users").value == "everyone"){
+            preview = append_img("right","Everyone","mp3")
+        }
+        else{
+            preview = append_img("right","Direct Message","mp3")
+        }
+        preview.src = window.URL.createObjectURL(blob)
+        };
+    
+        // Start recording
+        var    btn = document.createElement("button")
+        function audio_stream(){
+            var send_audio = document.getElementById("send_audio")
         
-    })}
-    audio_stream()
-    btn.addEventListener("click", (e)=>{
-        e.preventDefault()
-        console.log("fsfsfsfs");
-        mediaRecorder.stop()
-        var stop_audio = document.getElementById("stop_audio")
-        btn2 = document.createElement("button")
-        btn2.id = "send_audio"
-        btn2.innerText = "Record"
-        btn2.classList.add("btn")
-        send_btns.insertBefore(btn2,names.parentElement.children[2])
-        stop_audio.parentNode.removeChild(stop_audio)
+        send_audio.addEventListener("click",(e)=>{
+            e.preventDefault()
+            a=true
+            btn.id = "stop_audio"
+            btn.classList.add("btn")
+            btn.innerText = "Stop"
+            console.log("123123")
+            mediaRecorder.start();
+            send_btns.insertBefore(btn,send_audio.parentElement.children[2])
+            send_audio.parentNode.removeChild(send_audio)
+            
+        })}
         audio_stream()
+        btn.addEventListener("click", (e)=>{
+            e.preventDefault()
+            console.log("fsfsfsfs");
+            mediaRecorder.stop()
+            var stop_audio = document.getElementById("stop_audio")
+            btn2 = document.createElement("button")
+            btn2.id = "send_audio"
+            btn2.innerText = "Record"
+            btn2.classList.add("btn")
+            send_btns.insertBefore(btn2,names.parentElement.children[2])
+            stop_audio.parentNode.removeChild(stop_audio)
+            audio_stream()
+            
+        })
         
-    })
-    
-    
-});
+        
+    });
+        
+    } catch (error) {
+       console.log("could not load file",error) 
+    }
     socket.on('voice', (arrayBuffer,from)=> {
         var blob = new Blob([arrayBuffer], { 'type' : 'audio/ogg; codecs=opus' });
         msg = append_img("left",from,"mp3")
@@ -239,13 +246,8 @@ function record_audio(){
   });
 }
 
-
-try {
     
     record_audio()    
-} catch (error) {
-    console.log("can't sed audio")
-}
 
 form.addEventListener("submit", (e) => {
     typing = false
