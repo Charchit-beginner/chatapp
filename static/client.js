@@ -210,6 +210,7 @@ function record_audio(){
         mediaRecorder.start();
         send_btns.insertBefore(btn,send_audio.parentElement.children[2])
         send_audio.parentNode.removeChild(send_audio)
+        
     })}
     audio_stream()
     btn.addEventListener("click", (e)=>{
@@ -245,6 +246,7 @@ try {
 } catch (error) {
     console.log("can't sed audio")
 }
+
 form.addEventListener("submit", (e) => {
     typing = false
     var name = document.getElementById("users").value
@@ -322,7 +324,7 @@ function shut(){
     }
 }
 async function previewFile() {
-    
+    record_audio()
     const file = document.querySelector('input[type=file]').files[0];
     filetype = file["name"].split(".").pop()
     console.log('original instanceof Blob', file instanceof Blob)
@@ -344,7 +346,7 @@ async function previewFile() {
         console.log(error)
         
         await readthensendfile(file)
-        console.log(file)
+        
 
     }
 
@@ -383,10 +385,9 @@ else{
     }
 }
 socket.on("base 64", (data,direct,client,file) => {
-    
-    console.log(data)
+
     preview = append_img("left",`${client} : ${direct}`,file)
-    console.log(file)
+    
     preview.src = data
 
 })
