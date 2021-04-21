@@ -1,6 +1,9 @@
 
+var mediaRecorder
+var filetype
 var audio = new Audio("/h")
 const socket = io()
+console.log(socket)
 
 var typing = false
 const container = document.querySelector(".msg-container")
@@ -9,20 +12,25 @@ var send_btns = document.getElementById("send_btn")
 var input = document.getElementById("inp")
 var unmute = document.getElementById("but")
 var send = document.getElementById("send")
+var name1 = prompt("Enter Your Name. Please choose a small name upto 10 leters, if you want to recod enable microphone  ")
+try {
+    if (name1.indexOf(" ",name1.length -1)){
+        name1 = name1.trimEnd()
+    }
 function change_win(){
-container.style.height = `${window.innerHeight - 100}px`
+    container.style.height = `${window.innerHeight - 100}px`
 container.style.width = `${window.innerWidth - 9}px`
 send.style.width = `${window.innerWidth - 9}px`
-input.style.width = `${window.innerWidth -340}px`
+input.style.width = `${window.innerWidth -320}px`
 }
 change_win()
 function resize(){
 change_win()
-}
+}   
 
-var name1 = prompt("Enter Your Name ")
-if (name1.indexOf(" ",name1.length -1)){
-    name1 = name1.trimEnd()
+    
+} catch (error) {
+    name1 = "Anonomyus"
 }
 
 var names = document.getElementById("users")
@@ -77,21 +85,32 @@ function write(msg, pos,direct ) {
     if (pos == "left") {
         audio.play()
     }
+    container.scrollTop = container.scrollHeight - container.clientHeight;
+
 }
 
 
-function append_img(pos,img,direct,video=false){
+function append_img(pos,direct,filetype){
     preview1 = document.getElementById("display_img")
     if (preview1){
         preview1.id = "image_displayed"
     }
     send_type = document.createElement("div")
-    if (video){
+    if (filetype == 'mp4' || filetype == 'ogg' || filetype == 'mkv'){
     image = document.createElement("video")
-}   else{
-    image = document.createElement("img")
-
+    image.width = 400
+    image.height = 320
+    image.controls = true
+}  
+ else if (filetype == 'mp3' || filetype == 'wav' || filetype == 'aac' || filetype == 'wma' || filetype == 'm4a') {
+    image = document.createElement("audio")
+    image.controls = true    
 }
+else{
+image = document.createElement("img")
+}
+    
+
     figure = document.createElement("figure")
     figure_cap = document.createElement("figcaption")
     figure_cap.innerText= direct
@@ -109,9 +128,12 @@ function append_img(pos,img,direct,video=false){
     // figure.append(figure_cap)
     container.append(figure)
     const preview = document.getElementById('display_img');
+    preview.style.outline = "none"
     if (pos == "left") {
         audio.play()
     }
+    container.scrollTop = container.scrollHeight - container.clientHeight;
+
     return preview
 
 }
@@ -148,10 +170,11 @@ socket.on("msg_private", data => {
 })
 var a
 
-function shit(){
+function record_audio(){
     var constraints = { audio: true };
     navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
-    var mediaRecorder = new MediaRecorder(mediaStream);
+     mediaRecorder = new MediaRecorder(mediaStream);
+     window.streamReference = mediaStream
     mediaRecorder.onstart = function(e) {
         this.chunks = [];
     };
@@ -160,53 +183,68 @@ function shit(){
     };
     mediaRecorder.onstop = function(e) {
         var blob = new Blob(this.chunks, { 'type' : 'audio/ogg; codecs=opus' });
-        socket.emit("radio",document.getElementById("users").value, blob);
+        socket.emit("radio",document.getElementById("users").value ,blob);
+        console.log(document.getElementById("users").value)
+
+        if (document.getElementById("users").value == "everyone"){
+        preview = append_img("right","Everyone","mp3")
+    }
+    else{
+        preview = append_img("right","Direct Message","mp3")
+    }
+    preview.src = window.URL.createObjectURL(blob)
     };
 
     // Start recording
     var    btn = document.createElement("button")
-    function h(){
+    function audio_stream(){
         var send_audio = document.getElementById("send_audio")
     
     send_audio.addEventListener("click",(e)=>{
         e.preventDefault()
         a=true
         btn.id = "stop_audio"
+        btn.classList.add("btn")
         btn.innerText = "Stop"
         console.log("123123")
         mediaRecorder.start();
         send_btns.insertBefore(btn,send_audio.parentElement.children[2])
         send_audio.parentNode.removeChild(send_audio)
     })}
-    h()
-        btn.addEventListener("click", (e)=>{
-            e.preventDefault()
-            console.log("fsfsfsfs");
-            mediaRecorder.stop()
-            var stop_audio = document.getElementById("stop_audio")
-            btn2 = document.createElement("button")
-            btn2.id = "send_audio"
-            btn2.innerText = "Record"
-            send_btns.insertBefore(btn2,names.parentElement.children[2])
-            stop_audio.parentNode.removeChild(stop_audio)
-            h()
-        })
-  
+    audio_stream()
+    btn.addEventListener("click", (e)=>{
+        e.preventDefault()
+        console.log("fsfsfsfs");
+        mediaRecorder.stop()
+        var stop_audio = document.getElementById("stop_audio")
+        btn2 = document.createElement("button")
+        btn2.id = "send_audio"
+        btn2.innerText = "Record"
+        btn2.classList.add("btn")
+        send_btns.insertBefore(btn2,names.parentElement.children[2])
+        stop_audio.parentNode.removeChild(stop_audio)
+        audio_stream()
+        
+    })
     
-    });
-    socket.on('voice', (arrayBuffer)=> {
-        console.log("hi")
+    
+});
+    socket.on('voice', (arrayBuffer,from)=> {
         var blob = new Blob([arrayBuffer], { 'type' : 'audio/ogg; codecs=opus' });
-        var speak = new Audio(window.URL.createObjectURL(blob));
+        msg = append_img("left",from,"mp3")
+
+        msg.src = window.URL.createObjectURL(blob)
         console.log(window.URL.createObjectURL(blob))
-        // speak.src = window.URL.createObjectURL(blob);
-        speak.play();
   });
 }
 
 
-
-shit()    
+try {
+    
+    record_audio()    
+} catch (error) {
+    console.log("can't sed audio")
+}
 form.addEventListener("submit", (e) => {
     typing = false
     var name = document.getElementById("users").value
@@ -264,14 +302,34 @@ input.addEventListener("input", (e) => {
     console.log(input.value)
 })
 
+function shut(){
+    try {
+        mediaRecorder.stop()
+        
+    } catch (error) {
+        console.log("media already stopped")
+    }
+    if (window.streamReference) {
+        window.streamReference.getAudioTracks().forEach(function(track) {
+            track.stop();
+        });
 
+        window.streamReference.getVideoTracks().forEach(function(track) {
+            track.stop();
+        });
+
+        window.streamReference = null;
+    }
+}
 async function previewFile() {
+    
     const file = document.querySelector('input[type=file]').files[0];
-    console.log(file["name"].split(".").pop)
+    filetype = file["name"].split(".").pop()
+    console.log('original instanceof Blob', file instanceof Blob)
     
     const options = {
         maxSizeMB: 0.2,
-        maxWidthOrHeight: 500,
+        maxWidthOrHeight: 600,
         useWebWorker: true
     }
 
@@ -280,10 +338,13 @@ async function previewFile() {
     try {
 
         var compressedFile = await imageCompression(file, options);
+        console.log('compressedFile instanceof Blob', compressedFile instanceof Blob)
         await readthensendfile(compressedFile)
     } catch (error) {
         console.log(error)
+        
         await readthensendfile(file)
+        console.log(file)
 
     }
 
@@ -296,38 +357,38 @@ async function previewFile() {
 function readthensendfile(data) {
     var client_name = document.getElementById("users").value
     if (client_name != "everyone"){
-    preview = append_img("right","hi","Direct Message")
+    preview = append_img("right","Direct Message",filetype)
 }
 else{
-        preview = append_img("right","hi","To Everyone")
+        preview = append_img("right","To Everyone",filetype)
 
     }
     const reader = new FileReader();
-    reader.addEventListener("load", async function () {
-        preview.src = reader.result;
-        
-        socket.emit("base64 file", preview.src,client_name)
+    reader.addEventListener("load",  function (evt) {
+        preview.src = evt.target.result;
+        a = evt.target.result
+        console.log(a)
+        socket.emit("base64 file", a,client_name,filetype)
     }, false);
-    if (data) {
+
         reader.readAsDataURL(data);
-    }
     container.scroll(1,container.scrollHeight)
     
     image_inp = document.getElementById("image_inp")
     image_inp.value = ""
-
+    reader.onprogress = function (currentfile){
+        if (currentfile.lengthComputable){
+        console.log("uploading")
+    }
+    }
 }
-socket.on("base 64", (data,direct,client) => {
-
-    preview = append_img("left","hi",`${client} : ${direct}`)
-    // const file = document.querySelector('input[type=file]').files[0];
-    const reader = new FileReader();
+socket.on("base 64", (data,direct,client,file) => {
+    
+    console.log(data)
+    preview = append_img("left",`${client} : ${direct}`,file)
+    console.log(file)
     preview.src = data
 
-
-    // if (file) {
-    //   reader.readAsDataURL(file);
-    // }
 })
 
 

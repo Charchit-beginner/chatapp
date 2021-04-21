@@ -3,9 +3,12 @@ const express = require('express');
 const app = express()
 const fs = require("fs")
 const port = process.env.PORT || 3000
-const path = require('path');
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const io = require('socket.io')(http, {
+  pingInterval: 10000,
+  pingTimeout: 180000,
+  maxHttpBufferSize:1e9,
+});
 // const html = fs.readFileSync("/static/index.html")
 
 
@@ -29,7 +32,7 @@ app.get('/css', (req, res) => {
 app.get('/mute', (req, res) => {
   res.sendFile(__dirname + "/static/mute.ico")
 });
-app.get('/unmute', (req, res) => {
+app.get('/unmute', (req, res) => { 
   res.sendFile(__dirname + "/static/unmute.ico")
 });
 
@@ -67,12 +70,12 @@ io.on("connection", socket => {
     console.log("privatemsg");
   });
   socket.emit("joined",{list:client})
-  socket.on("base64 file",(msg,anotherSocketId)=>{
+  socket.on("base64 file",(msg,anotherSocketId,filetype)=>{
     if (anotherSocketId == "everyone"){
       console.log("everyone");
-    socket.broadcast.emit("base 64",msg,"To Everyone",client[socket.id])
+    socket.broadcast.emit("base 64",msg,"To Everyone",client[socket.id],filetype)
   }else{
-    socket.to(anotherSocketId).emit("base 64",msg,"Direct Message",client[socket.id])
+    socket.to(anotherSocketId).emit("base 64",msg,"Direct Message",client[socket.id],filetype)
     console.log("to me")
   }
 
@@ -80,9 +83,9 @@ io.on("connection", socket => {
   socket.on("radio", (anotherSocketId,blob)=> {
     // can choose to broadcast it to whoever you want
     if (anotherSocketId == "everyone"){
-      socket.broadcast.emit("voice", blob);
+      socket.broadcast.emit("voice", blob,`${client[socket.id]} : Everyone`);
     }else{
-      socket.to(anotherSocketId).emit("voice",blob)
+      socket.to(anotherSocketId).emit("voice",blob,`${client[socket.id]} : Direct Message`);
       console.log("to me")
     }
 

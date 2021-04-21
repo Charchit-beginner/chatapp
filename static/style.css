@@ -78,7 +78,6 @@ body {
 .left {
     background: rgb(187, 224, 187);
     margin:10px ;
-    width: fit-content;
     float: left;
     clear: both;
 }
@@ -108,14 +107,13 @@ body {
     margin:5px;
     
 }
-#btn {
+.btn {
     padding: 4px 7px;
     border: 2px solid white;
-    background-color: #b39d95;
+    background-color: #4fd0c15c;
     font-size: 20px;
     border-radius: 10px;
     cursor: pointer;
-    margin:5px;
     outline: none;
 }
 
@@ -155,11 +153,28 @@ button:hover {
 .caption{
 }
 #send_audio{
-    
+    width: 61px;
+    font-size: 15px;
+    padding: 3px;
+    margin-left: 5px;
 }
 #send_btn{
     background: #b39d95;
     display: inline-block;
     height: 55px;
     padding-top: 1px;
+    width:fit-content;  
 };
+.users{
+    outline: none;
+    font-size: 30px;
+    float: right;
+    height: 36px;
+    border-radius: 10px;
+}
+@media only screen and (max-width: 768px){
+
+    
+
+
+}

@@ -25,14 +25,22 @@
         <form action="#" id="container" autocomplete="off">
             <input type="text" id="inp" placeholder="Enter Your Message" autofocus >
             <div id="send_btn">
-            <button id="btn" type="submit">SEND</button>
-            <button id="send_audio" >Record</button>
+            <button class="btn"id="btn" type="submit">SEND</button>
+            <button class="btn" id="send_audio" >Record</button>
                 <label for="image_inp">
                     <img id="img" src="https://icon-library.net/images/upload-photo-icon/upload-photo-icon-21.jpg" />
                 </label>
-                <input type="file" id="image_inp" onchange="previewFile()">
-            <select id="users" style="outline: none;font-size: 20px;margin: 5px ; float:right; height: 36px;
-            border-radius: 10px";>
+                <input type="file" id="image_inp" onchange="previewFile()" onclick="shut()" >
+            <select id="users" class="users" style=" 
+            outline: none;
+            font-size: 15px;
+            margin-top:5px;
+            margin-bottom:5px;
+            float: right;
+            height: 36px;
+            border-radius: 10px;
+        
+        ">
                 <option value="everyone">Everyone</option>
             </select>
             </div>
