@@ -12,14 +12,9 @@ var send_btns = document.getElementById("send_btn")
 var input = document.getElementById("inp")
 var unmute = document.getElementById("but")
 var send = document.getElementById("send")
-var name1 = prompt("Enter Your Name. Please choose a small name upto 10 leters, if you want to recod enable microphone  ")
-try {
-    if (name1.indexOf(" ",name1.length -1)){
-        name1 = name1.trimEnd()
-    }
 function change_win(){
     container.style.height = `${window.innerHeight - 100}px`
-container.style.width = `${window.innerWidth - 9}px`
+    container.style.width = `${window.innerWidth - 9}px`
 send.style.width = `${window.innerWidth - 9}px`
 input.style.width = `${window.innerWidth -320}px`
 }
@@ -28,7 +23,12 @@ function resize(){
 change_win()
 }   
 
-    
+
+var name1 = prompt("Enter Your Name. Please choose a small name upto 10 leters, if you want to recod enable microphone  ")
+try {
+    if (name1.indexOf(" ",name1.length -1)){
+        name1 = name1.trimEnd()
+    }
 } catch (error) {
     name1 = "Anonomyus"
 }
