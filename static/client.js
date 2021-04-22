@@ -1,4 +1,4 @@
-
+var upload = document.getElementById("uploaded")
 var mediaRecorder
 var filetype
 var audio = new Audio("/h")
@@ -160,6 +160,9 @@ socket.on("leave", left => {
     }
     container.scrollTop = container.scrollHeight - container.clientHeight;
 })
+socket.on("disconn",()=>{
+    alert("You left the chat due to some reason. please rejoin")
+})
 socket.on("msg", data => {
     console.log(data.message)
     write(`${data.user} : ${data.message}`, "left","To Everyone")
@@ -242,9 +245,11 @@ function record_audio(){
 }
 socket.on('voice', (arrayBuffer,from)=> {
     var blob = new Blob([arrayBuffer], { 'type' : 'audio/ogg; codecs=opus' });
+
     msg = append_img("left",from,"mp3")
     msg.src = window.URL.createObjectURL(blob)
     console.log(window.URL.createObjectURL(blob))
+    
 });
 
     
@@ -358,7 +363,7 @@ async function previewFile(event) {
         
 
     }
-    event.target.value = ""
+   
 
 
 
@@ -393,12 +398,22 @@ else{
     }
     }
 }
+var tru = false
 socket.on("base 64", (data,direct,client,file) => {
 
     preview = append_img("left",`${client} : ${direct}`,file)
     
     preview.src = data
-
+    tru = true
+})
+socket.on("uploaded",(msg)=>{
+    // alert(msg)
+    if (tru == true){
+    upload.innerText = msg
+    setTimeout(() => {
+        upload.innerText = ""
+    }, 2000);
+}
 })
 
 
