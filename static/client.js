@@ -24,7 +24,7 @@ change_win()
 }   
 
 
-var name1 = prompt("Enter Your Name. Please choose a small name upto 10 leters, if you want to recod enable microphone  ")
+var name1 = prompt("Enter Your Name. Please choose a small name upto 10 leters,enable mic to record, long file transfer may take time  ")
 try {
     if (name1.indexOf(" ",name1.length -1)){
         name1 = name1.trimEnd()
@@ -176,6 +176,7 @@ function record_audio(){
     var constraints = { audio: true };
     try {
         navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
+
          mediaRecorder = new MediaRecorder(mediaStream);
          window.streamReference = mediaStream
         mediaRecorder.onstart = function(e) {
@@ -237,14 +238,14 @@ function record_audio(){
     } catch (error) {
        console.log("could not load file",error) 
     }
-    socket.on('voice', (arrayBuffer,from)=> {
-        var blob = new Blob([arrayBuffer], { 'type' : 'audio/ogg; codecs=opus' });
-        msg = append_img("left",from,"mp3")
-
-        msg.src = window.URL.createObjectURL(blob)
-        console.log(window.URL.createObjectURL(blob))
-  });
+   
 }
+socket.on('voice', (arrayBuffer,from)=> {
+    var blob = new Blob([arrayBuffer], { 'type' : 'audio/ogg; codecs=opus' });
+    msg = append_img("left",from,"mp3")
+    msg.src = window.URL.createObjectURL(blob)
+    console.log(window.URL.createObjectURL(blob))
+});
 
     
     record_audio()    
@@ -305,7 +306,6 @@ input.addEventListener("input", (e) => {
     socket.emit("user-typing", typing)
     console.log(input.value)
 })
-
 function shut(){
     try {
         mediaRecorder.stop()
@@ -324,9 +324,16 @@ function shut(){
 
         window.streamReference = null;
     }
+    document.body.onfocus = window.try_focus  
 }
-async function previewFile() {
-    record_audio()
+window.try_focus = function (){
+    console.log("hi")
+document.body.onfocus = null
+record_audio()
+}
+
+async function previewFile(event) {
+    
     const file = document.querySelector('input[type=file]').files[0];
     filetype = file["name"].split(".").pop()
     console.log('original instanceof Blob', file instanceof Blob)
@@ -351,7 +358,7 @@ async function previewFile() {
         
 
     }
-
+    event.target.value = ""
 
 
 
