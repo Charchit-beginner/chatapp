@@ -8,4 +8,4 @@ npm i socket.io</br>
 
 if you want to test this running live
 then visit this site</br>
-https://chatapp-1--charchit123.repl.co/
+https://chatapp-a.herokuapp.com/
