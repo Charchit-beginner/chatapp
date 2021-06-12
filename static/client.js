@@ -38,7 +38,7 @@ try {
     }
     return output;
 }
-    name1 = genHexString(10)
+    name1 = genHexString(5)
 }
 
 var names = document.getElementById("users")
