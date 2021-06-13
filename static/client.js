@@ -24,7 +24,7 @@ change_win()
 }   
 
 
-var name1 = prompt("Enter Your Name. Please choose a small name upto 10 leters,enable mic to record, long file transfer may take time  ")
+var name1 = prompt("Enter Your Name. Please choose a small name upto 10 leters,enable mic to record, long file transfer may take time. chat in private by clicking on everyone and select name ")
 try {
     if (name1.indexOf(" ",name1.length -1)){
         name1 = name1.trimEnd()
