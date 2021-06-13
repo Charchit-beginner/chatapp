@@ -1,11 +1,4 @@
 # chatapp
-This is a chatapp is made with socket.io</br>
-node js should be installed in your machine </br>
-install the following modules by entering these commands</br>
-npm i express</br>
-npm i socket.io</br>
-
-
-if you want to test this running live
+A chat app with image,video audio recording and sharing</br>
 then visit this site</br>
 https://chatapp-a.herokuapp.com/
